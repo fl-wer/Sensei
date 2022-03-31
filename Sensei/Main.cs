@@ -118,7 +118,7 @@ namespace Sensei
 
             // if more than 1 queue we need to calculate, 47 is based on controls location
             // which was set when I was designing the form
-            else if (queueQuantity > 1) return new Size(286, 246 + (queueQuantity - 1) * 47);
+            else if (queueQuantity > 1) return new Size(286, (246 + (queueQuantity - 1)) * 47);
 
             // if queue quantity == 0 we're returning default window size
             else return defaultWindowSize;
