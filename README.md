@@ -7,4 +7,4 @@ Show/hide main window of processes in groups, I used it for mining with 32 accou
 # Options
 You can right-click anywhere on the window and you will see options.  
 
-![image](https://user-images.githubusercontent.com/101416707/160960936-4b3d864a-9661-4991-8d7f-bd556fee217e.png)
+![image](https://user-images.githubusercontent.com/101416707/162498413-94d568b5-a8f2-45ca-9695-a11a32cc05c1.png)
