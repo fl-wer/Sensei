@@ -288,7 +288,6 @@ namespace Sensei
                     // minimizing windows for user's comfort
                     foreach (Process proc in processList)
                         ShowWindow(proc.MainWindowHandle, SW_SHOWMINIMIZED);
-
                 }
                 else ShowError("There's nothing to load.");
             }
