@@ -19,12 +19,24 @@ namespace Sensei
         public Main() { InitializeComponent(); }
 
         // build version, used for display
-        public static string softwareVersion = "1";
+        public static string softwareVersion = "2";
 
         // ### imported windows functions
         // this can minimize or show window, used for loading queues
         [DllImport("user32.dll")]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        // vector used for keeping locations and for calculative functions 
+        [StructLayout(LayoutKind.Sequential)]
+        public struct Vector2 { public int x; public int y; }
+
+        // gets x/y location into a Vector2 object
+        [DllImport("user32.dll")]
+        public static extern bool GetWindowRect(IntPtr hwnd, ref Vector2 rectangle);
+
+        // used for changing position of a window
+        [DllImport("user32.dll", EntryPoint = "SetWindowPos")]
+        public static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
 
         // used for ShowWindow function as second argument
         const int SW_SHOWMINIMIZED = 2;
@@ -46,6 +58,7 @@ namespace Sensei
         // all those files will have "INF" at the end so you know these
         public static string alwaysOnTopINF = "p44gz4";
         public static string lastProcessNameINF = "5gf1mv";
+        public static string windowsLocationINF = "cwxife";
 
         // running on startup
         private void Form1_Load(object sender, EventArgs e)
@@ -188,6 +201,98 @@ namespace Sensei
             // go through list of all processess and use ShowWindow function to minimize all
             foreach (Process proc in Process.GetProcessesByName(processNameTextBox.Text))
                 ShowWindow(proc.MainWindowHandle, SW_SHOWMINIMIZED);
+        }
+
+        // saves locations of all windows for the used process even when minimized
+        private void savePositionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (processList != null && processList.Length != 0)
+            {
+                // show all windows as function for getting location doesn't work
+                // when the window is minimized, it then returns trash number
+                foreach (Process proc in processList)
+                    ShowWindow(proc.MainWindowHandle, SW_SHOWNORMAL);
+
+                // object that holds x and y
+                Vector2 vector = new Vector2();
+
+                // checking if at least one process available
+                if (processList.Length != 0)
+                {
+                    // full string holding all positions line by line
+                    string positions = "";
+
+                    // go through all processes and get all windows position
+                    foreach (Process proc in processList)
+                    {
+                        // this saves window x/y location and puts in Vector2 class object
+                        GetWindowRect(proc.MainWindowHandle, ref vector);
+
+                        // saving each position with single lines
+                        positions += vector.x + " " + vector.y + "\n";
+                    }
+
+                    // saving x + y of windows to config file
+                    File.WriteAllText(configFilesPath + windowsLocationINF, positions);
+
+                    // minimize all windows for comfort
+                    foreach (Process proc in processList)
+                        ShowWindow(proc.MainWindowHandle, SW_SHOWMINIMIZED);
+                }
+                else ShowError("Process not running.");
+            }
+            else ShowError("Calculate queues first and make sure process is running.");
+        }
+
+        // loading positions into open windows in order, if too many positions
+        // it will stop on last window, if too many windows it will stop on last position
+        private void loadPositionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // making sure queues vere calculated once and there is at least one process running
+            if (processList != null && processList.Length != 0)
+            {
+                // show all windows as function for setting location doesn't work otherwise
+                foreach (Process proc in processList)
+                    ShowWindow(proc.MainWindowHandle, SW_SHOWNORMAL);
+
+                // making sure config file exists
+                if (File.Exists(configFilesPath + windowsLocationINF))
+                {
+                    // lines that each one of them holds one window location
+                    string[] lines = File.ReadAllLines(configFilesPath + windowsLocationINF);
+
+                    // using counter to go through processes, sometimes there might be more positions saved
+                    // that there is processes open so we need to make sure we don't go too far with the process array
+                    int counter = 0;
+
+                    // check comment above
+                    foreach (string line in lines)
+                    {
+                        // making sure we're not breaching process list array
+                        if (counter < processList.Length)
+                        {
+                            // holders for parsing below
+                            int posX, posY;
+
+                            // parsing both position x and position y and checking if went through
+                            if (int.TryParse(line.Remove(line.IndexOf(" "), line.Length - line.IndexOf(" ")), out posX) &&
+                            int.TryParse(line.Remove(0, line.IndexOf(" ") + 1), out posY))
+                                SetWindowPos(processList[counter].MainWindowHandle, 0, posX, posY, 0, 0, 0x0004 | 0x0001 | 0x0040);
+                        }
+                        else break;
+
+                        // adding 1 to counter for array use
+                        counter += 1;
+                    }
+
+                    // minimizing windows for user's comfort
+                    foreach (Process proc in processList)
+                        ShowWindow(proc.MainWindowHandle, SW_SHOWMINIMIZED);
+
+                }
+                else ShowError("There's nothing to load.");
+            }
+            else ShowError("Calculate queues first and make sure process is running.");
         }
 
         // pre-created message boxes for showing errors or info

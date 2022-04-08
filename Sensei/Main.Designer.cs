@@ -49,6 +49,8 @@
             this.alwaysOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.killAllSessionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.minimizeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.savePositionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadPositionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.perQueueNumeric)).BeginInit();
             this.quickSupport.SuspendLayout();
             this.SuspendLayout();
@@ -224,16 +226,18 @@
             this.quickSupport.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.alwaysOnTopToolStripMenuItem,
             this.killAllSessionsToolStripMenuItem,
-            this.minimizeAllToolStripMenuItem});
+            this.minimizeAllToolStripMenuItem,
+            this.savePositionsToolStripMenuItem,
+            this.loadPositionsToolStripMenuItem});
             this.quickSupport.Name = "quickSupport";
-            this.quickSupport.Size = new System.Drawing.Size(155, 70);
+            this.quickSupport.Size = new System.Drawing.Size(181, 136);
             // 
             // alwaysOnTopToolStripMenuItem
             // 
             this.alwaysOnTopToolStripMenuItem.Checked = true;
             this.alwaysOnTopToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.alwaysOnTopToolStripMenuItem.Name = "alwaysOnTopToolStripMenuItem";
-            this.alwaysOnTopToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.alwaysOnTopToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.alwaysOnTopToolStripMenuItem.Text = "Always On Top";
             this.alwaysOnTopToolStripMenuItem.Click += new System.EventHandler(this.alwaysOnTopToolStripMenuItem_Click);
             // 
@@ -250,6 +254,20 @@
             this.minimizeAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.minimizeAllToolStripMenuItem.Text = "Minimize All";
             this.minimizeAllToolStripMenuItem.Click += new System.EventHandler(this.minimizeAllToolStripMenuItem_Click);
+            // 
+            // savePositionsToolStripMenuItem
+            // 
+            this.savePositionsToolStripMenuItem.Name = "savePositionsToolStripMenuItem";
+            this.savePositionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.savePositionsToolStripMenuItem.Text = "Save Positions";
+            this.savePositionsToolStripMenuItem.Click += new System.EventHandler(this.savePositionsToolStripMenuItem_Click);
+            // 
+            // loadPositionsToolStripMenuItem
+            // 
+            this.loadPositionsToolStripMenuItem.Name = "loadPositionsToolStripMenuItem";
+            this.loadPositionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadPositionsToolStripMenuItem.Text = "Load Positions";
+            this.loadPositionsToolStripMenuItem.Click += new System.EventHandler(this.loadPositionsToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -308,6 +326,8 @@
         private System.Windows.Forms.ToolStripMenuItem alwaysOnTopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem killAllSessionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem minimizeAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem savePositionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadPositionsToolStripMenuItem;
     }
 }
 
